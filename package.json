@@ -1,0 +1,15 @@
+{
+  "name": "ecommerce-backend",
+  "version": "1.0.0",
+  "description": "desarrollo de una app de backend para proyecto de ecommerce",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "backend",
+    "ecommerce"
+  ],
+  "author": "Franco Odone",
+  "license": "MIT"
+}
