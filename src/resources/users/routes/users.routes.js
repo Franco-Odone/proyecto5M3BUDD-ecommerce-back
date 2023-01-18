@@ -1,18 +1,17 @@
 import { Router } from "express";
-import { verifyToken } from "../../auth/middlewares/auth.middlewares.js";
 import {
-  createProduct,
-  deleteProductById,
-  getProductById,
-  getProducts,
-  updateProductById,
-} from "../controllers/products.controller.js";
+  createUser,
+  deleteUserById,
+  getUserById,
+  getUsers,
+  updateUserById,
+} from "../controllers/users.controller.js";
 
 // Definimos la instancia de nuestro express router
-const productsRouter = Router();
+const usersRouter = Router();
 
 // Se define la base de la URI para exponet el servicio
-const baseURI = "/products";
+const baseURI = "/users";
 
 /* 
   Se configura según el estandar REST los verbos HTTP 
@@ -26,10 +25,10 @@ const baseURI = "/products";
      PUT/PATCH --------> UPDATE --------> updateProductById
      DELETE    --------> DELETE --------> deleteProductById
 */
-productsRouter.post(baseURI, createProduct);
-productsRouter.get(baseURI, verifyToken, getProducts);
-productsRouter.get(`${baseURI}/:id`, getProductById);
-productsRouter.put(`${baseURI}/:id`, updateProductById);
-productsRouter.delete(`${baseURI}/:id`, deleteProductById);
+usersRouter.post(baseURI, createUser);
+usersRouter.get(baseURI, getUsers);
+usersRouter.get(`${baseURI}/:id`, getUserById);
+usersRouter.put(`${baseURI}/:id`, updateUserById);
+usersRouter.delete(`${baseURI}/:id`, deleteUserById);
 
-export default productsRouter;
+export default usersRouter;

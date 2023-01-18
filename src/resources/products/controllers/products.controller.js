@@ -1,34 +1,37 @@
-// Simulacion en memoria de lo que es guardar los productos en una DB
-const products = [];
+import { product } from "../models/products.model.js";
 
 // Funciones handlers
-export const createProduct = (req, res) => {
+export const createProduct = async (req, res) => {
   const body = req.body;
-  products.push(body);
-  res.json(body);
+  const newProduct = await product.create(body);
+  res.json(newProduct);
 };
 
-export const getProducts = (req, res) => {
+export const getProducts = async (req, res) => {
+  const userLogged = req.user;
+  console.log(`🚀 ~ userLogged`, userLogged);
+
+  const products = await product.find();
   res.json(products);
 };
 
-export const getProductById = (req, res) => {
+export const getProductById = async (req, res) => {
   const id = req.params.id;
-  const product = products.find((product) => product.id === id);
-  res.json(product);
+  const oneProduct = await product.findById(id);
+  res.json(oneProduct);
 };
 
-export const updateProductById = (req, res) => {
+export const updateProductById = async (req, res) => {
   const body = req.body;
   const id = req.params.id;
-  const productIndex = products.findIndex((product) => product.id === id);
-  products[productIndex] = body;
-  res.json(products[productIndex]);
+  const productUpdated = await product.findByIdAndUpdate(id, body, {
+    new: true,
+  });
+  res.json(productUpdated);
 };
 
-export const deleteProductById = (req, res) => {
+export const deleteProductById = async (req, res) => {
   const id = req.params.id;
-  const productIndex = products.findIndex((product) => product.id === id);
-  const productRemoved = products.splice(productIndex, 1)[0];
+  const productRemoved = await product.findByIdAndDelete(id);
   res.json(productRemoved);
 };
