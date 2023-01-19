@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import bcryptjs from "bcryptjs";
+import Joi from "joi";
 
 import environment from "../../../config/environment.js";
 import { user } from "../../users/models/users.model.js";
@@ -7,42 +8,53 @@ import { user } from "../../users/models/users.model.js";
 const { TOKEN_SECRET } = environment;
 
 export const login = async (req, res) => {
-  const { username, password, id } = req.body;
+  const { email, password } = req.body;
 
-  // Validamos el body
-  if (!username || !password) {
-    res.json({
-      status: "FAILED",
-      error: "El usuario o contraseña no pueden ser vacíos",
-    });
-  }
+  // schema para validar la data que está entrando
+  const schema = Joi.object({
+    email: Joi.string().min(3).max(200).required().email(),
+    password: Joi.string().min(6).max(200).required(),
+  });
+
+  const { error } = schema.validate(req.body);
+
+  // Mensaje en inglés
+  if (error) return res.status(400).send(error.details[0].message);
+
   // Buscamos el usuario en la DB y verificamos si la contraseña es válida
   // ENCONTRAMOS UN USUARIO
-  let foundUser = await user.findOne({ id });
+
+  let foundUser = await user.findOne({ email: req.body.email });
 
   // SI NO HUBO UN USUARIO ENCONTRADO, DEVOLVEMOS UN ERROR
-  if (!foundUser) {
-    return res.status(400).json({ msg: "El usuario no existe" });
-  }
+  if (!foundUser) return res.status(400).send("contraseña o email no válidos");
 
   // SI TODO OK, HACEMOS LA EVALUACIÓN DE LA CONTRASEÑA ENVIADA CONTRA LA BASE DE DATOS
   const passCorrecto = await bcryptjs.compare(password, foundUser.password);
 
   // SI EL PASSWORD ES INCORRECTO, REGRESAMOS UN MENSAJE SOBRE ESTO
   if (!passCorrecto) {
-    return await res.status(400).json({ msg: "Password incorrecto" });
+    return await res.status(400).json({ msg: "Contraseña incorrecta" });
   }
 
   // SI TODO CORRECTO, GENERAMOS UN JSON WEB TOKEN
   // El payload es  donde aparecen los datos de usuario y privilegios, así como toda la información
   // que queramos añadir, todos los datos que creamos convenientes.
 
-  const payload = {
-    role: "USER",
-    username: username,
+  const authToken = (user) => {
+    const token = jwt.sign(
+      // Payload
+      {
+        _id: user._id,
+        username: user.username,
+        email: user.email,
+      },
+      TOKEN_SECRET
+    );
+    return token;
   };
-  const token = jwt.sign(payload, TOKEN_SECRET, {
-    expiresIn: 3600,
-  });
-  res.json({ token });
+
+  const token = authToken(foundUser);
+
+  res.json({ foundUser, token });
 };

@@ -28,7 +28,7 @@ app.use(authRouter);
 
 // Se inicia la aplicación y se queda escuchando requests en el puerto indicado
 app.listen(environment.PORT, () => {
-  console.log(`APLICATION INICIARÁ EN EL PUERTO: ${environment.PORT}`);
+  console.log(`APLICACIÓN INICIARÁ EN EL PUERTO: ${environment.PORT}`);
 });
 
 // Con resources hablamos de los elementos que se van a exponer

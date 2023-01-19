@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { verifyToken } from "../../auth/middlewares/auth.middlewares.js";
+// import { verifyToken } from "../../auth/middlewares/auth.middlewares.js";
 import {
   createProduct,
   deleteProductById,
@@ -27,7 +27,7 @@ const baseURI = "/products";
      DELETE    --------> DELETE --------> deleteProductById
 */
 productsRouter.post(baseURI, createProduct);
-productsRouter.get(baseURI, verifyToken, getProducts);
+productsRouter.get(baseURI, getProducts);
 productsRouter.get(`${baseURI}/:id`, getProductById);
 productsRouter.put(`${baseURI}/:id`, updateProductById);
 productsRouter.delete(`${baseURI}/:id`, deleteProductById);

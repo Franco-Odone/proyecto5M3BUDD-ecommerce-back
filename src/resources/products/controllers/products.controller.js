@@ -8,8 +8,8 @@ export const createProduct = async (req, res) => {
 };
 
 export const getProducts = async (req, res) => {
-  const userLogged = req.user;
-  console.log(`🚀 ~ userLogged`, userLogged);
+  // const userLogged = req.user;
+  // console.log(`🚀 ~ userLogged`, userLogged);
 
   const products = await product.find();
   res.json(products);
