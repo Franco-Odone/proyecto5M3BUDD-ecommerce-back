@@ -27,14 +27,14 @@ export const login = async (req, res) => {
   let foundUser = await user.findOne({ email: req.body.email });
 
   // SI NO HUBO UN USUARIO ENCONTRADO, DEVOLVEMOS UN ERROR
-  if (!foundUser) return res.status(400).send("contraseña o email no válidos");
+  if (!foundUser) return res.status(400).send("Contraseña o email no válidos");
 
   // SI TODO OK, HACEMOS LA EVALUACIÓN DE LA CONTRASEÑA ENVIADA CONTRA LA BASE DE DATOS
   const passCorrecto = await bcryptjs.compare(password, foundUser.password);
 
   // SI EL PASSWORD ES INCORRECTO, REGRESAMOS UN MENSAJE SOBRE ESTO
   if (!passCorrecto) {
-    return await res.status(400).json({ msg: "Contraseña incorrecta" });
+    return await res.status(400).send("Contraseña incorrecta");
   }
 
   // SI TODO CORRECTO, GENERAMOS UN JSON WEB TOKEN
