@@ -18,13 +18,8 @@ const baseURI = "/users";
   a vincular para realizar las operaciones CRUD. 
   Los handlers de cada verbo HTTP se deben construir en el controller
   y luego agregarlos aca.
-
-  VERBO HTTP              CRUD          Controller handler
-     POST      --------> CREATE --------> createProduct
-     GET       --------> READ   --------> getProducts / getProductById
-     PUT/PATCH --------> UPDATE --------> updateProductById
-     DELETE    --------> DELETE --------> deleteProductById
 */
+
 usersRouter.post(baseURI, createUser);
 usersRouter.get(baseURI, getUsers);
 usersRouter.get(`${baseURI}/:id`, getUserById);

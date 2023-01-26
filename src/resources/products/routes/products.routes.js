@@ -20,6 +20,7 @@ const baseURI = "/products";
   Los handlers de cada verbo HTTP se deben construir en el controller
   y luego agregarlos aca.
 */
+
 productsRouter.post(baseURI, verifyToken, createProduct);
 productsRouter.get(baseURI, getProducts);
 productsRouter.get(`${baseURI}/:id`, getProductById);
