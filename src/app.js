@@ -10,15 +10,17 @@ import express from "express";
 // Se crea una instancia de una aplicación express
 const app = express();
 
-// iniciamos la conexión la base de datos al momento de levantar la app
+// Iniciamos la conexión a la base de datos al momento de levantar la app
 startConnection();
 
 // bodyparser
+// Parse incoming request bodies in a middleware before your handlers
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Se configura un middleware para aceptar requests de tipo JSON
 // Habilitar CORS
+// "Cross-Origin resource sharing", protocolo que consiste en restringir o permitir peticiones de dominios externos a la aplicación.
 app.use(cors());
+// Se configura un middleware para aceptar requests de tipo JSON
 app.use(express.json());
 
 // Se agregan los distintos endpoints

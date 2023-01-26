@@ -1,5 +1,5 @@
 import { Router } from "express";
-// import { verifyToken } from "../../auth/middlewares/auth.middlewares.js";
+import { verifyToken } from "../../auth/middlewares/auth.middlewares.js";
 import {
   createProduct,
   deleteProductById,
@@ -11,7 +11,7 @@ import {
 // Definimos la instancia de nuestro express router
 const productsRouter = Router();
 
-// Se define la base de la URI para exponet el servicio
+// Se define la base de la URI para exponer el servicio
 const baseURI = "/products";
 
 /* 
@@ -19,17 +19,11 @@ const baseURI = "/products";
   a vincular para realizar las operaciones CRUD. 
   Los handlers de cada verbo HTTP se deben construir en el controller
   y luego agregarlos aca.
-
-  VERBO HTTP              CRUD          Controller handler
-     POST      --------> CREATE --------> createProduct
-     GET       --------> READ   --------> getProducts / getProductById
-     PUT/PATCH --------> UPDATE --------> updateProductById
-     DELETE    --------> DELETE --------> deleteProductById
 */
-productsRouter.post(baseURI, createProduct);
+productsRouter.post(baseURI, verifyToken, createProduct);
 productsRouter.get(baseURI, getProducts);
 productsRouter.get(`${baseURI}/:id`, getProductById);
-productsRouter.put(`${baseURI}/:id`, updateProductById);
-productsRouter.delete(`${baseURI}/:id`, deleteProductById);
+productsRouter.put(`${baseURI}/:id`, verifyToken, updateProductById);
+productsRouter.delete(`${baseURI}/:id`, verifyToken, deleteProductById);
 
 export default productsRouter;

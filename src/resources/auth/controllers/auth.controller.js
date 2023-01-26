@@ -8,7 +8,7 @@ import { user } from "../../users/models/users.model.js";
 const { TOKEN_SECRET } = environment;
 
 export const login = async (req, res) => {
-  const { email, password } = req.body;
+  const { password } = req.body;
 
   // schema para validar la data que está entrando
   const schema = Joi.object({

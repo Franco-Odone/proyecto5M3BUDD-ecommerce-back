@@ -2,15 +2,15 @@ import { product } from "../models/products.model.js";
 
 // Funciones handlers
 export const createProduct = async (req, res) => {
+  // Obtengo el payload del token
+  const userLogged = req.user;
+  console.log(`🚀 ~ userLogged`, userLogged);
   const body = req.body;
   const newProduct = await product.create(body);
-  res.json(newProduct);
+  res.json({ newProduct });
 };
 
 export const getProducts = async (req, res) => {
-  // const userLogged = req.user;
-  // console.log(`🚀 ~ userLogged`, userLogged);
-
   const products = await product.find();
   res.json(products);
 };
